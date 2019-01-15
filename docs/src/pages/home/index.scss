@@ -66,12 +66,21 @@ $animation5Height: 460px;
       opacity: 0;
   }
 }
+.home_bg_lcn{
+  position: absolute;
+  top: 1px;
+  background-size: 11px 11px;
+  background: -webkit-linear-gradient(top,transparent 10px,#ededed 11px), -webkit-linear-gradient(left,transparent 10px,#ededed 11px);
+  height: inherit;
+  left: 1px;
+}
 
-.home-page {
+.home-page  {
   .top-section {
     position: relative;
     height: 720px;
-    background-image: linear-gradient(0deg, $startColor 0%, $intermediateColor 51%, $endColor 100%);
+    //background-image: linear-gradient(0deg, $startColor 0%, $intermediateColor 51%, $endColor 100%);
+    background-color: #23262a;
     .animation {
       position: absolute;
       top: 0;

@@ -40,7 +40,9 @@ class Home extends Language {
     const headerLogo = headerType === 'primary' ? '/img/txlcn_white.png' : '/img/txlcn.png';
     return (
       <div className="home-page">
+
         <section className="top-section">
+            <div className="home_bg_lcn"></div>
           <Header
             currentKey="home"
             type={headerType}
@@ -59,11 +61,11 @@ class Home extends Language {
             }
             </div>
           </div>
-          <div className="animation animation1" />
-          <div className="animation animation2" />
-          <div className="animation animation3" />
-          <div className="animation animation4" />
-          <div className="animation animation5" />
+          {/*<div className="animation animation1" />*/}
+          {/*<div className="animation animation2" />*/}
+          {/*<div className="animation animation3" />*/}
+          {/*<div className="animation animation4" />*/}
+          {/*<div className="animation animation5" />*/}
         </section>
         <section className="introduction-section">
           <div className="introduction-body">

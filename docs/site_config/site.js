@@ -17,11 +17,12 @@ export default {
         text: 'DOCS',
         link: '/en-us/docs/preface.html',
       },
-      // {
-      //   key: 'blog',
-      //   text: 'BLOG',
-      //   link: '/en-us/blog/index.html',
-      // },
+      {
+        key: 'download',
+        text: 'DOWNLOAD',
+          link: 'https://github.com/codingapi/tx-lcn/releases',
+          target:'_blank',
+      },
       {
         key: 'community',
         text: 'COMMUNITY',
@@ -78,11 +79,12 @@ export default {
         text: '文档',
         link: '/zh-cn/docs/preface.html',
       },
-      // {
-      //   key: 'blog',
-      //   text: '博客',
-      //   link: '/zh-cn/blog/index.html',
-      // },
+      {
+        key: '下载',
+        text: '下载',
+        link: 'https://github.com/codingapi/tx-lcn/releases',
+        target:'_blank',
+      },
       {
         key: 'community',
         text: '社区',
