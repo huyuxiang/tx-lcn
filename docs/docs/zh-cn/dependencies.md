@@ -26,4 +26,3 @@
 ## 中间件依赖
 * Mariadb 10+ (MySQL5+)
 * Redis any
-* 微服务注册中心（zookeeper, consul） (可选的)
