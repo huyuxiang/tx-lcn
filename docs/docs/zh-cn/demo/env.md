@@ -1,6 +1,6 @@
 # 尝试下简单的分布式事务
 
-## 一、导入数据 Mariadb (MySQL) 数据库
+## 一、导入数据 MariaDB (MySQL) 数据库
 
 demo示例依赖txlcn-demo数据库建表语句如下:      
 ```$xslt
@@ -35,9 +35,9 @@ CREATE TABLE `t_tx_exception`  (
 ```
 
 ## 二、启动TxManager
-
-TxManager主要配置如下:   
-参数配置说明见 [TxManager配置](setting/manager.html)
+1. MariaDB已启动。
+2. 启动Redis中间件。
+3. TxManager的主要配置。[详细参数配置](setting/manager.html)
 ```properties
 spring.application.name=tx-manager
 server.port=8069
@@ -50,10 +50,14 @@ spring.datasource.password=passwd
 mybatis.configuration.map-underscore-to-camel-case=true
 mybatis.configuration.use-generated-keys=true
 
+spring.redis.host=127.0.0.1
+spring.redis.port=6379
+spring.redis.password=
+
 ```
 
-启动TxManager
-
+4. 启动TxManager
+启动可运行jar.[详情](https://bbs.txlcn.org/viewtopic.php?id=12)
 ![tx-manager](../../../img/docs/tx_manager.png)
 
 ## 三、准备注册中心
