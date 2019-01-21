@@ -1,13 +1,14 @@
 # 快速开始
 
 ## 一、微服务额外依赖TX-LCN Client 代码库
+### 首先启用TX-LCN 在主类上使用@EnableDistributedTransaction
 
 springcloud pom
 ```xml
 <dependency>
     <groupId>com.codingapi.txlcn</groupId>
     <artifactId>tx-client-springcloud</artifactId>
-    <version>5.0.0.RC1</version>
+    <version>5.0.0.RC2</version>
 </dependency>
 ```
 dubbo pom
@@ -15,7 +16,7 @@ dubbo pom
 <dependency>
     <groupId>com.codingapi.txlcn</groupId>
     <artifactId>tx-client-dubbo</artifactId>
-    <version>5.0.0.RC1</version>
+    <version>5.0.0.RC2</version>
 </dependency>
 ```
 > `NOTE` 依微服务架构依赖其一
@@ -76,7 +77,7 @@ public class ServiceB {
 [TXC](principle/txc.html)  [TCC](principle/tcc.html) 模式。  
 2、参数配置见 [TxClient配置](setting/client.html)    
 3、详细配置见 [dubbo示例](demo/dubbo.html)  [springcloud示例](demo/springcloud.html)
-
+4、所有分布式注解新增DTXPropagation属性 设置分布式事务传播行为
 ## 三、TxManager配置
 
 配置TxManager参数并启动     
