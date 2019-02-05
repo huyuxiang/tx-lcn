@@ -11,7 +11,7 @@ https://docsite.js.org/en-us/docs/installation.html
 
 1. 下载node_modules  
 
-`npm intall`  
+`npm install`
 
 2. 启动运行  
 
