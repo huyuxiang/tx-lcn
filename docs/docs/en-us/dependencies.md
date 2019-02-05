@@ -1,11 +1,11 @@
-# TX-LCN Dependencies
+# 依赖
 
-## Base
+## 基础依赖
 * JDK 8+
-* Maven 3（optional）
+* Maven 3（可选的）
 * SpringBoot 2.x
 
-## Java Libs
+## Java库依赖
 * projectlombok:1.18.0
 * hessian:4.0.38
 * fastjson:1.2.34
@@ -16,13 +16,13 @@
 * jsqlparser:1.3
 * h2database:1.4.197
 * hikari-cp:3.1.0
-* pagehelper:1.2.10 `TxManager`
-* mybatis.spring.boot:1.3.2 `TxManager`
-* spring-cloud:Finchley.SR2 (optional)
-* netty:4.1.31.Final （optional）
-* dubbo:0.2.0 (optional)
+* pagehelper:1.2.10 `TxManager(TM)`
+* mybatis.spring.boot:1.3.2 `TxManager(TM)`
+* spring-cloud:Finchley.SR2 (可选的)
+* netty:4.1.31.Final （可选的）
+* dubbo:0.2.0 (可选的)
 
 
-## Middleware
+## 中间件依赖
 * Mariadb 10+ (MySQL5+)
 * Redis any
