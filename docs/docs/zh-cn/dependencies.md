@@ -16,8 +16,8 @@
 * jsqlparser:1.3
 * h2database:1.4.197
 * hikari-cp:3.1.0
-* pagehelper:1.2.10 `TxManager`
-* mybatis.spring.boot:1.3.2 `TxManager`
+* pagehelper:1.2.10 `TxManager(TM)`
+* mybatis.spring.boot:1.3.2 `TxManager(TM)`
 * spring-cloud:Finchley.SR2 (可选的)
 * netty:4.1.31.Final （可选的）
 * dubbo:0.2.0 (可选的)
