@@ -1,30 +1,40 @@
 # TxClient配置说明
 ## 一、application.properties
 ```properties
-# 事务控制切面控制次序
-tx-lcn.client.control-order=0
 
-# 资源切面次序
+# springcloud feign 下开启负载均衡时的配置。开启后同一个事务组下相同的模块会重复调用。
+# 对应dubbo框架下需要设置的是 @Reference的loadbalance，有下面四种，作用都是开启后同一个事务组下相同的模块会重复调用。
+#txlcn_random=com.codingapi.txlcn.tracing.dubbo.TxlcnRandomLoadBalance
+#txlcn_roundrobin=com.codingapi.txlcn.tracing.dubbo.TxlcnRoundRobinLoadBalance
+#txlcn_leastactive=com.codingapi.txlcn.tracing.dubbo.TxlcnLeastActiveLoadBalance
+#txlcn_consistenthash=com.codingapi.txlcn.tracing.dubbo.TxlcnConsistentHashLoadBalance
+
+tx-lcn.ribbon.loadbalancer.dtx.enabled=true
+# tx-manager 的配置地址，多个用,分割。注意设置上的地址在启动的时候会检查并连接，连接不成功会启动失败。
+# tx-manager 下集群策略，当增加一个新的tx-manager后，tx-manager也会通知到其他的在线模块，然后tx-client会在连接上后面加入的模块。
+tx-lcn.client.manager-address=127.0.0.1:8070,127.0.0.1:8071
+# 该参数是分布式事务框架存储的业务切面信息。采用的是h2数据库。该参数默认的值为{user.dir}/.txlcn/{application.name}-{application.port}
+tx-lcn.aspect.log.file-path=logs/.txlcn/demo-8080
+# 调用链长度等级，默认值为3.标识调用连长度为3，该参数是用于识别分布式事务的最大通讯时间。
+tx-lcn.client.chain-level=3
+# 该参数为tc与tm通讯时的最大超时时间，单位毫米。该参数不需要配置会在连接初始化时由tm返回。
+tx-lcn.client.tm-rpc-timeout=2000
+# 该参数为分布式事务的最大时间，单位毫米。该参数不需要配置会在连接初始化时由tm返回。
+tx-lcn.client.dtx-time=50000
+# 该参数为雪花算法的机器编号。该参数不需要配置会在连接初始化时由tm返回。
+tx-lcn.client.machine-id=1
+#该参数为事务方法注解切面的orderNumber，默认值为0.
+tx-lcn.client.dtx-aspect-order=0
+#该参数为事务连接资源方法切面的orderNumber，默认值为0.
 tx-lcn.client.resource-order=0
+#是否开启日志记录。当开启以后需要配置对应logger的数据库连接配置信息。
+tx-lcn.logger.enabled=false
 
-# manager服务地址(rpc端口),可填写多个负载
-tx-lcn.client.manager-address=127.0.0.1:8070
+#该参数为tm下的配置，tc下忽略
+tx-lcn.client.tx-manager-delay=2000
+#该参数为tm下的配置，tc下忽略
+tx-lcn.client.tx-manager-heart=2000
 
-# 切面日志信息(h2数据库地址)
-tx-lcn.aspect.log.file-path=${user.dir}/.txlcn/${spring.application.name}
-
-# 开启日志数据库记录存储
-tx-lcn.logger.enabled=true
-
-# 日志数据库存储jdbc配置
-tx-lcn.logger.driver-class-name=com.mysql.jdbc.Driver
-tx-lcn.logger.jdbc-url=jdbc:mysql://127.0.0.1:3306/tx-logger?\
-  characterEncoding=UTF-8&serverTimezone=UTC
-tx-lcn.logger.username=root
-tx-lcn.logger.password=123456
-
-# 与TxManager通讯最大等待时间（秒）
-tx-lcn.message.netty.wait-time=5
 
 ```
 
@@ -73,72 +83,55 @@ ribbon.MaxAutoRetriesNextServer=0
 
 ----------------
 
-### 3、当通过AOP配置本地事务时需要调整优先级
-   
-可以采用两种方式
+### 3、通过AOP配置本地事务与分布式事务
 
-1. 通过DTXInterceptor配置本地事务.
 
 ```
 @Configuration
 @EnableTransactionManagement
-@EnableConfigurationProperties(TransactionProperties.class)
 public class TransactionConfiguration {
 
+    /**
+     * 本地事务配置
+     * @param transactionManager
+     * @return
+     */
     @Bean
-    public TransactionInterceptor transactionInterceptor(PlatformTransactionManager transactionManager, DTXLogicWeaver dtxLogicWeaver) {
-        Properties properties = new Properties();
-        properties.setProperty("*", "PROPAGATION_REQUIRED,-Throwable");
-
-        DTXInterceptor dtxInterceptor = new DTXInterceptor(dtxLogicWeaver);
-        dtxInterceptor.setTransactionManager(transactionManager);
-        dtxInterceptor.setTransactionAttributes(properties);
-        return dtxInterceptor;
-    }
-
-    @Bean
-    public BeanNameAutoProxyCreator beanNameAutoProxyCreator() {
-        BeanNameAutoProxyCreator beanNameAutoProxyCreator = new BeanNameAutoProxyCreator();
-        beanNameAutoProxyCreator.setInterceptorNames("transactionInterceptor");
-        beanNameAutoProxyCreator.setBeanNames("*Impl");
-        return beanNameAutoProxyCreator;
-    }
-}
-
-```
-2. 设置TXLCNInterceptor拦截器，然后设置优先与本地事务
-
-```java
-@Configuration
-@EnableTransactionManagement
-@EnableConfigurationProperties(TransactionProperties.class)
-public class TransactionConfiguration {
-
-
-    @Bean
-    public TXLCNInterceptor txlcnInterceptor(DTXLogicWeaver dtxLogicWeaver) {
-        TXLCNInterceptor dtxInterceptor = new TXLCNInterceptor(dtxLogicWeaver);
-        return dtxInterceptor;
-    }
-
-    @Bean
+    @ConditionalOnMissingBean
     public TransactionInterceptor transactionInterceptor(PlatformTransactionManager transactionManager) {
         Properties properties = new Properties();
         properties.setProperty("*", "PROPAGATION_REQUIRED,-Throwable");
+        TransactionInterceptor transactionInterceptor = new TransactionInterceptor();
+        transactionInterceptor.setTransactionManager(transactionManager);
+        transactionInterceptor.setTransactionAttributes(properties);
+        return transactionInterceptor;
+    }
 
-        TransactionInterceptor dtxInterceptor = new TransactionInterceptor();
-        dtxInterceptor.setTransactionManager(transactionManager);
-        dtxInterceptor.setTransactionAttributes(properties);
-        return dtxInterceptor;
+    /**
+     * 分布式事务配置 设置为LCN模式
+     * @param dtxLogicWeaver
+     * @return
+     */
+    @ConditionalOnBean(DTXLogicWeaver.class)
+    @Bean
+    public TxLcnInterceptor txLcnInterceptor(DTXLogicWeaver dtxLogicWeaver) {
+        TxLcnInterceptor txLcnInterceptor = new TxLcnInterceptor(dtxLogicWeaver);
+        Properties properties = new Properties();
+        properties.setProperty(Transactions.DTX_TYPE,Transactions.LCN);
+        properties.setProperty(Transactions.DTX_PROPAGATION, "REQUIRED");
+        txLcnInterceptor.setTransactionAttributes(properties);
+        return txLcnInterceptor;
     }
 
     @Bean
     public BeanNameAutoProxyCreator beanNameAutoProxyCreator() {
         BeanNameAutoProxyCreator beanNameAutoProxyCreator = new BeanNameAutoProxyCreator();
-        beanNameAutoProxyCreator.setInterceptorNames("txlcnInterceptor","transactionInterceptor");
+        //需要调整优先级，分布式事务在前，本地事务在后。
+        beanNameAutoProxyCreator.setInterceptorNames("txLcnInterceptor","transactionInterceptor");
         beanNameAutoProxyCreator.setBeanNames("*Impl");
         return beanNameAutoProxyCreator;
     }
 }
 
 ```
+ 

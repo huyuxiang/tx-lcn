@@ -3,29 +3,54 @@
 ## application.properties
 ```properties
 
-# 事务消息主机
+spring.application.name=tx-manager
+server.port=7970
+
+#mysql 配置
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/tx-manager?characterEncoding=UTF-8
+spring.datasource.username=root
+spring.datasource.password=root
+        
+mybatis.configuration.map-underscore-to-camel-case=true
+mybatis.configuration.use-generated-keys=true
+
+
+# TxManager Host Ip
 tx-lcn.manager.host=127.0.0.1
-
-# 事务消息端口（默认是TxManager端口号加1）
+# TxClient连接请求端口
 tx-lcn.manager.port=8070
+# 心跳检测时间(ms)
+tx-lcn.manager.heart-time=15000
+# 分布式事务执行总时间(ms)
+tx-lcn.manager.dtx-time=30000
+#参数延迟删除时间单位ms
+tx-lcn.message.netty.attr-delay-time=10000
+#事务处理并发等级
+tx-lcn.manager.concurrent-level=128
 
-# 心跳检测时间(毫秒)
-tx-lcn.manager.heart-time=15
-
-# 事务并发等级（实质是处理事务消息的线程数, 最小为处理器核心数的5倍）
-tx-lcn.manager.concurrent-level=0
-
-# 后台管理密码
+#后台登陆密码，默认值为codingapi
 tx-lcn.manager.admin-key=codingapi
-
-# 分布式事务执行总时间（毫秒）
-tx-lcn.manager.dtx-time=36000
-
-# 与TxClient通讯最大等待时间（秒）
-tx-lcn.message.netty.wait-time=5
-
+#分布式事务锁超时时间 默认为-1，当-1时会用tx-lcn.manager.dtx-time的时间
+tx-lcn.manager.dtx-lock-time=-1
+#雪花算法的sequence位长度，默认为12位.
+tx-lcn.manager.seq-len=12
+#异常回调开关
+tx-lcn.manager.ex-url-enabled=false
 # 事务异常通知（任何http协议地址。未指定协议时，为TxManager提供的接口）
 tx-lcn.manager.ex-url=/provider/email-to/***@**.com
+
+
+
+# 开启日志,默认为false
+tx-lcn.logger.enabled=true
+logging.level.com.codingapi=debug
+#redis 的设置信息
+spring.redis.host=127.0.0.1
+spring.redis.port=6379
+spring.redis.password=
+
+
 ```
 
 ----------------

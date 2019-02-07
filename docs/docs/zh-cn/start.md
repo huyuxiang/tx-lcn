@@ -84,7 +84,7 @@ mybatis.configuration.use-generated-keys=true
 编译  
 进入到txlcn-tm路径下。 执行 `mvn clean  package '-Dmaven.test.skip=true'`   
 启动  
-进入target文件夹下。执行 `java -jar txlcn-tm-5.0.0.jar `
+进入target文件夹下。执行 `java -jar txlcn-tm-5.0.0.RELEASE.jar `
 
 ## TC微服务模块
 
@@ -101,13 +101,13 @@ mybatis.configuration.use-generated-keys=true
         <dependency>
             <groupId>com.codingapi.txlcn</groupId>
             <artifactId>txlcn-tc</artifactId>
-            <version>5.0.0</version>
+            <version>5.0.0.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>com.codingapi.txlcn</groupId>
             <artifactId>txlcn-txmsg-netty</artifactId>
-            <version>5.0.0</version>
+            <version>5.0.0.RELEASE</version>
         </dependency>
 ```
 

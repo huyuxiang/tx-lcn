@@ -78,10 +78,10 @@ A ->B2.two();
 针对dubbo需要指定loadbalance为txlcn的负载方式，框架重写了dubbo的负载方式提供了对应dubbo的四种负载方式 :
 
 ```
-txlcn_random=com.codingapi.txlcn.client.dubbo.spi.sleuth.loadbalance.TXLCNRandomLoadBalance
-txlcn_roundrobin=com.codingapi.txlcn.client.dubbo.spi.sleuth.loadbalance.TXLCNRoundRobinLoadBalance
-txlcn_leastactive=com.codingapi.txlcn.client.dubbo.spi.sleuth.loadbalance.TXLCNLeastActiveLoadBalance
-txlcn_consistenthash=com.codingapi.txlcn.client.dubbo.spi.sleuth.loadbalance.TXLCNConsistentHashLoadBalance
+txlcn_random=com.codingapi.txlcn.tracing.dubbo.TxlcnRandomLoadBalance
+txlcn_roundrobin=com.codingapi.txlcn.tracing.dubbo.TxlcnRoundRobinLoadBalance
+txlcn_leastactive=com.codingapi.txlcn.tracing.dubbo.TxlcnLeastActiveLoadBalance
+txlcn_consistenthash=com.codingapi.txlcn.tracing.dubbo.TxlcnConsistentHashLoadBalance
 
 ```
 使用如下:
