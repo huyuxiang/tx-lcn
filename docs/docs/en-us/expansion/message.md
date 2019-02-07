@@ -5,9 +5,9 @@
 目前TX-LCN默认采用了netty方式通讯。关于拓展也以netty方式来说明如何拓展。
 
 
-## 拓展tx-spi-message
+## 拓展txlcn-txmsg
 
-主要实现6个接口，其中下面4个是由tx-spi-message的实现方提供:
+主要实现6个接口，其中下面4个是由txlcn-txmsg的实现方提供:
 
 * 发起请求调用客户端 `RpcClient`
 
@@ -19,82 +19,109 @@ public abstract class RpcClient {
 
     /**
      * 发送指令不需要返回数据，需要知道返回的状态
-     * @param rpcCmd    指令内容
-     * @return  指令状态
-     * @throws RpcException
+     *
+     * @param rpcCmd 指令内容
+     * @return 指令状态
+     * @throws RpcException 远程调用请求异常
      */
-   public abstract RpcResponseState send(RpcCmd rpcCmd) throws RpcException;
+    public abstract RpcResponseState send(RpcCmd rpcCmd) throws RpcException;
 
 
     /**
      * 发送指令不需要返回数据，需要知道返回的状态
+     *
      * @param remoteKey 远程标识关键字
-     * @param msg    指令内容
-     * @return  指令状态
-     * @throws RpcException
+     * @param msg       指令内容
+     * @return 指令状态
+     * @throws RpcException 远程调用请求异常
      */
-    public abstract RpcResponseState send(String remoteKey,MessageDto msg) throws RpcException;
+    public abstract RpcResponseState send(String remoteKey, MessageDto msg) throws RpcException;
 
 
     /**
-     * 发送请求并相应
-     * @param rpcCmd   指令内容
-     * @return  相应指令数据
-     * @throws RpcException
+     * 发送请求并获取响应
+     *
+     * @param rpcCmd 指令内容
+     * @return 响应指令数据
+     * @throws RpcException 远程调用请求异常
      */
-    public abstract  MessageDto request(RpcCmd rpcCmd)throws RpcException;
+    public abstract MessageDto request(RpcCmd rpcCmd) throws RpcException;
 
 
     /**
-     * 发送请求并相应
-     * @param remoteKey   远程标识关键字
-     * @param msg    指令内容
-     * @return  相应指令数据
-     * @throws RpcException
+     * 发送请求并响应
+     *
+     * @param remoteKey 远程标识关键字
+     * @param msg       请求内容
+     * @return 相应指令数据
+     * @throws RpcException 远程调用请求异常
      */
-    public abstract  MessageDto request(String remoteKey,MessageDto msg)throws RpcException;
+    public abstract MessageDto request(String remoteKey, MessageDto msg) throws RpcException;
+
+    /**
+     * 发送请求并获取响应
+     *
+     * @param remoteKey 远程标识关键字
+     * @param msg       请求内容
+     * @param timeout   超时时间
+     * @return 响应消息
+     * @throws RpcException 远程调用请求异常
+     */
+    public abstract MessageDto request(String remoteKey, MessageDto msg, long timeout) throws RpcException;
 
 
     /**
      * 获取一个远程标识关键字
-     * @return
-     * @throws RpcException
+     *
+     * @return 远程标识关键字
+     * @throws RpcException 远程调用请求异常
      */
-    public  String loadRemoteKey() throws RpcException{
+    public String loadRemoteKey() throws RpcException {
         return rpcLoadBalance.getRemoteKey();
     }
 
 
     /**
      * 获取所有的远程连接对象
-     * @return  远程连接对象数组.
+     *
+     * @return 远程连接对象数组.
      */
     public abstract List<String> loadAllRemoteKey();
 
 
     /**
      * 获取模块远程标识
+     *
      * @param moduleName 模块名称
      * @return 远程标识
      */
-    public abstract List<String> moduleList(String moduleName);
+    public abstract List<String> remoteKeys(String moduleName);
 
 
     /**
      * 绑定模块名称
+     *
      * @param remoteKey 远程标识
      * @param appName   应用名称
      */
-    public abstract void bindAppName(String remoteKey,String appName) throws RpcException;
-
+    public abstract void bindAppName(String remoteKey, String appName);
 
 
     /**
      * 获取模块名称
+     *
      * @param remoteKey 远程标识
-     * @return   应用名称
+     * @return 应用名称
      */
-    public abstract  String getAppName(String remoteKey) throws RpcException;
+    public abstract String getAppName(String remoteKey);
+
+
+    /**
+     * 获取所有的模块信息
+     *
+     * @return 应用名称
+     */
+    public abstract List<AppInfo> apps();
 
 }
 ```
@@ -195,5 +222,5 @@ public interface ClientInitCallBack {
 ```
 
 
-实现细节可借鉴 tx-spi-message-netty 模块源码
+实现细节可借鉴 txlcn-txmsg-netty 模块源码
 
