@@ -37,16 +37,16 @@ TC数据初始化
 微服务演示Demo依赖txlcn-demo数据库(MariaDB 、MySQL)建表语句如下:            
 ```$xslt
 DROP TABLE IF EXISTS `t_demo`;
-CREATE TABLE `t_demo`  (
+CREATE TABLE `t_demo` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `demo_field` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `group_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `unit_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `app_name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
+  `kid` varchar(45) DEFAULT NULL,
+  `demo_field` varchar(255) DEFAULT NULL,
+  `group_id` varchar(64) DEFAULT NULL,
+  `unit_id` varchar(32) DEFAULT NULL,
+  `app_name` varchar(32) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 ```
 ## 启动TxManager(TM)
 

@@ -16,17 +16,17 @@ mybatis.configuration.map-underscore-to-camel-case=true
 mybatis.configuration.use-generated-keys=true
 
 
-# TxManager Host Ip
+# TxManager Host Ip 默认为 127.0.0.1
 tx-lcn.manager.host=127.0.0.1
-# TxClient连接请求端口
+# TxClient连接请求端口 默认为 8070
 tx-lcn.manager.port=8070
-# 心跳检测时间(ms)
-tx-lcn.manager.heart-time=15000
-# 分布式事务执行总时间(ms)
-tx-lcn.manager.dtx-time=30000
-#参数延迟删除时间单位ms
-tx-lcn.message.netty.attr-delay-time=10000
-#事务处理并发等级
+# 心跳检测时间(ms) 默认为 300000
+tx-lcn.manager.heart-time=300000
+# 分布式事务执行总时间(ms) 默认为36000
+tx-lcn.manager.dtx-time=36000
+#参数延迟删除时间单位ms  默认为dtx-time值
+tx-lcn.message.netty.attr-delay-time=36000
+#事务处理并发等级 默认为128
 tx-lcn.manager.concurrent-level=128
 
 #后台登陆密码，默认值为codingapi

@@ -135,3 +135,22 @@ public class TransactionConfiguration {
 
 ```
  
+ ### 4、TXC模式定义表的实际主键
+
+TXC 是基于逆向sql的方式实现对业务的回滚控制，在逆向sql操作数据是会检索对应记录的主键作为条件处理回滚业务。但是在有些情况下可能表中并没有主键字段(primary key)，仅存在业务上的名义主键，此时可通过重写`PrimaryKeysProvider`方式定义表对应的主键关系。   
+
+如下所示:    
+
+```java
+
+@Component
+public class MysqlPrimaryKeysProvider implements PrimaryKeysProvider {
+
+    @Override
+    public Map<String, List<String>> provide() {
+        //t_demo 表的回滚主键为 kid字段
+        return Maps.newHashMap("t_demo", Collections.singletonList("kid"));
+    }
+}
+
+```
