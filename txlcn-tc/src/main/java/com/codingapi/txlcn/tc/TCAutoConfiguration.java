@@ -55,4 +55,9 @@ public class TCAutoConfiguration {
     public ApplicationRunner2 txLcnApplicationRunner(ApplicationContext applicationContext) {
         return new TxLcnApplicationRunner(applicationContext);
     }
+
+	 @Bean
+    public ApplicationRunner3 txLcnApplicationRunner(ApplicationContext applicationContext) {
+        return new TxLcnApplicationRunner(applicationContext);
+    }
 }
